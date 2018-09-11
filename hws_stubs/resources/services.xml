@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.6.3  Built on : Jun 27, 2015 (11:17:49 BST) -->
+<serviceGroup>
+    <service name="HelloWorldService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="se.umu.cs.edu.soa.hws.stubs.HelloWorldServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">se.umu.cs.edu.soa.hws.stubs.HelloWorldServiceSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="greet" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://cs.umu.se/edu/soa/hws/stubs">
+            <actionMapping>http://cs.umu.se/edu/soa/hws/stubs/greet</actionMapping>
+            <outputActionMapping>http://cs.umu.se/edu/soa/hws/stubs/HelloWorldService/greetResponse</outputActionMapping>
+            <faultActionMapping faultName="FailureFault">http://cs.umu.se/edu/soa/hws/stubs/HelloWorldService/greet/Fault/FailureFault</faultActionMapping>
+            <faultActionMapping faultName="FailureException">http://cs.umu.se/edu/soa/hws/stubs/HelloWorldService/greet/Fault/FailureFault</faultActionMapping>
+            <faultActionMapping faultName="FailureException_Exception">http://cs.umu.se/edu/soa/hws/stubs/HelloWorldService/greet/Fault/FailureFault</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

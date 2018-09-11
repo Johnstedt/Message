@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:tns="http://cs.umu.se/edu/soa/hws/stubs"
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   name="HelloWorldService"
+   targetNamespace="http://cs.umu.se/edu/soa/hws/stubs">
+
+  <!-- types -->
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://cs.umu.se/edu/soa/hws/stubs">
+
+      <xsd:element name="Message">
+        <xsd:complexType>
+          <xsd:sequence>
+
+            <!--xsd:element name="id">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="32"/>
+                  <xsd:maxLength value="32"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="timestamp" type="xsd:long"/>
+
+            <xsd:element name="sender">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="255"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="topic">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="255"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="content">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="0"/>
+                  <xsd:maxLength value="65535"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+
+            <xsd:element name="attachments">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:byte">
+                  <xsd:minLength value="0"/>
+                  <xsd:maxLength value="4194303"/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element-->
+            <xsd:element name="id" type="xsd:string" />
+            <xsd:element name="timestamp" type="xsd:long" />
+            <xsd:element name="sender" type="xsd:string" />
+            <xsd:element name="topic" type="xsd:string" />
+            <xsd:element name="content" type="xsd:string" />
+            <xsd:element name="attachments" type="xsd:byte" />
+
+
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="GreetRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="GreetResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="FailureMessage">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="Acknowledgement">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+    </xsd:schema>
+  </wsdl:types>
+
+  <!-- messages -->
+  <wsdl:message name="PostMessage">
+    <wsdl:part element="tns:Message" name="request"/>
+  </wsdl:message>
+
+  <wsdl:message name="Acknowledgement">
+    <wsdl:part element="tns:Acknowledgement" name="response"/>
+  </wsdl:message>
+
+  <wsdl:message name="void" />
+
+  <wsdl:message name="GreetRequestMessage">
+    <wsdl:part element="tns:GreetRequest" name="request"/>
+  </wsdl:message>
+  <wsdl:message name="GreetResponseMessage">
+    <wsdl:part element="tns:GreetResponse" name="response"/>
+  </wsdl:message>
+  <wsdl:message name="FailureException">
+    <wsdl:part element="tns:FailureMessage" name="fault"/>
+  </wsdl:message>
+
+  <!-- interfaces -->
+  <wsdl:portType name="HelloWorldService">
+    <wsdl:operation name="greet">
+      <wsdl:input message="tns:GreetRequestMessage"/>
+      <wsdl:output message="tns:GreetResponseMessage"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="post">
+      <wsdl:input message="tns:PostMessage"/>
+      <wsdl:output message="tns:void"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <!--wsdl:portType name="PostMessageService">
+    <wsdl:operation name="post">
+      <wsdl:input message="tns:PostMessage"/>
+      <wsdl:output message="tns:Acknowledgement"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+  </wsdl:portType-->
+
+  <!-- bindings -->
+  <wsdl:binding name="HelloWorldServiceSOAP" type="tns:HelloWorldService">
+    <soap:binding style="document"
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="greet">
+      <soap:operation
+         soapAction="http://cs.umu.se/edu/soa/hws/stubs/greet"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="post">
+      <soap:operation
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/post"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <!-- services -->
+  <wsdl:service name="HelloWorldService">
+    <wsdl:port binding="tns:HelloWorldServiceSOAP" name="HelloWorldServiceSOAP">
+      <soap:address
+         location="http://localhost:8080/axis2/services/HelloWorldService"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

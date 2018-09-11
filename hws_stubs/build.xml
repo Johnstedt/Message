@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="hws" default="dist" basedir=".">
+    <!-- description -->
+    <description>
+    A simple Hello World service example
+  </description>
+    <!-- properties -->
+    <property environment="env"/>
+    <property name="axishome" value="${env.AXIS2_HOME}"/>
+    <property name="src" location="src"/>
+    <property name="stubsdir" location="src/se/umu/cs/edu/soa/hws/stubs"/>
+    <property name="resources" location="resources"/>
+    <property name="wsdl" location="wsdl"/>
+    <property name="lib" location="lib"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+    <property name="serviceaar" location="${dist}/hws.aar"/>
+    <!-- classpaths -->
+    <path id="lib.classpath">
+        <fileset dir="${axishome}/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <!-- init -->
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${build}"/>
+    </target>
+    <!-- genstubs -->
+    <target name="genstubs" depends="init" description="generate service stubs">
+        <echo message="generating service stubs"/>
+        <java classname="org.apache.axis2.wsdl.WSDL2Java" fork="true">
+            <classpath refid="lib.classpath"/>
+            <sysproperty key="org.apache.commons.logging.Log" value="org.apache.commons.logging.impl.NoOpLog"/>
+            <arg value="-ss"/>
+            <arg value="-sd"/>
+            <arg value="-g"/>
+            <arg value="-s"/>
+            <arg value="-d"/>
+            <arg value="adb"/>
+            <arg value="-u"/>
+            <arg value="-uri"/>
+            <arg file="${wsdl}/hws.wsdl"/>
+        </java>
+    </target>
+    <!-- compile -->
+    <target name="compile" depends="genstubs" description="compile source">
+        <javac debug="true" srcdir="${src}" destdir="${build}">
+            <classpath refid="lib.classpath"/>
+        </javac>
+    </target>
+    <!-- dist -->
+    <target name="dist" depends="compile" description="generate distribution">
+        <mkdir dir="${dist}"/>
+        <!-- service AAR -->
+        <copy todir="${build}/META-INF">
+            <fileset dir="${resources}">
+                <include name="services.xml"/>
+            </fileset>
+            <fileset dir="${wsdl}">
+                <include name="hws.wsdl"/>
+            </fileset>
+        </copy>
+        <jar jarfile="${serviceaar}" basedir="${build}"/>
+        <!-- cleanup -->
+        <delete dir="${build}"/>
+    </target>
+    <!-- deploy -->
+    <target name="deploy" description="deploy service">
+        <copy todir="${axishome}/repository/services">
+            <fileset dir="dist">
+                <include name="hws.aar"/>
+            </fileset>
+        </copy>
+    </target>
+    <!-- undeploy -->
+    <target name="undeploy" description="undeploy service">
+        <!-- remove service archive from repository -->
+        <delete>
+            <fileset dir="${axishome}/repository/services">
+                <include name="hws.aar"/>
+            </fileset>
+        </delete>
+    </target>
+    <!-- clean -->
+    <target name="clean" description="clean up">
+        <!-- delete the ${build} and ${dist} directory trees -->
+        <delete dir="${build}"/>
+        <delete dir="${stubsdir}"/>
+        <delete dir="${resources}"/>
+        <delete file="${serviceaar}"/>
+        <delete>
+            <fileset dir="." includes="**/*.tmp"/>
+        </delete>
+    </target>
+</project>
