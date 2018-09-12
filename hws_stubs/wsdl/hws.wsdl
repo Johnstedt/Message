@@ -61,14 +61,31 @@
                 </xsd:restriction>
               </xsd:simpleType>
             </xsd:element-->
-            <xsd:element name="id" type="xsd:string" />
+            <xsd:element name="id" type="xsd:string"/>
             <xsd:element name="timestamp" type="xsd:long" />
             <xsd:element name="sender" type="xsd:string" />
             <xsd:element name="topic" type="xsd:string" />
             <xsd:element name="content" type="xsd:string" />
-            <xsd:element name="attachments" type="xsd:byte" />
+            <xsd:element name="attachments" type="xsd:base64Binary" />
 
 
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="Identifiers">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="identifiers" type="xsd:string" maxOccurs="unbounded" minOccurs="0" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="TimeStamps">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="identifiers" type="xsd:string" maxOccurs="unbounded" minOccurs="0" />
+            <xsd:element name="timestamps" type="xsd:long" maxOccurs="unbounded" minOccurs="0" />
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -99,10 +116,43 @@
         </xsd:complexType>
       </xsd:element>
       
-      <xsd:element name="Acknowledgement">
+      <xsd:element name="Selector">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="Subscription">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="username" type="xsd:string"/>
+            <xsd:element name="topic" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="SubscriptionResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:boolean"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="Topics">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="topics" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="Subscribers">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="topics" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -115,8 +165,40 @@
     <wsdl:part element="tns:Message" name="request"/>
   </wsdl:message>
 
-  <wsdl:message name="Acknowledgement">
-    <wsdl:part element="tns:Acknowledgement" name="response"/>
+  <wsdl:message name="RetrieveMessage">
+    <wsdl:part element="tns:Selector" name="request"/>
+  </wsdl:message>
+
+  <wsdl:message name="ReturnMessage">
+    <wsdl:part element="tns:Message" name="response"/>
+  </wsdl:message>
+
+  <wsdl:message name="ReturnMessages">
+    <wsdl:part element="tns:Identifiers" name="response"/>
+  </wsdl:message>
+
+  <wsdl:message name="ReturnMessagesWithTimestamps">
+    <wsdl:part element="tns:TimeStamps" name="response"/>
+  </wsdl:message>
+
+  <wsdl:message name="MakeRequest">
+    <wsdl:part element="tns:Selector" name="request"/>
+  </wsdl:message>
+
+  <wsdl:message name="Subscription">
+    <wsdl:part element="tns:Subscription" name="request"/>
+  </wsdl:message>
+
+  <wsdl:message name="SubscriptionResponse">
+    <wsdl:part element="tns:SubscriptionResponse" name="response"/>
+  </wsdl:message>
+
+  <wsdl:message name="Topics">
+    <wsdl:part element="tns:Topics" name="response"/>
+  </wsdl:message>
+
+  <wsdl:message name="Subscribers">
+    <wsdl:part element="tns:Subscribers" name="response"/>
   </wsdl:message>
 
   <wsdl:message name="void" />
@@ -138,11 +220,55 @@
       <wsdl:output message="tns:GreetResponseMessage"/>
       <wsdl:fault message="tns:FailureException" name="FailureFault"/>
     </wsdl:operation>
-    <wsdl:operation name="post">
+
+    <wsdl:operation name="PostMessage">
       <wsdl:input message="tns:PostMessage"/>
       <wsdl:output message="tns:void"/>
       <wsdl:fault message="tns:FailureException" name="FailureFault"/>
     </wsdl:operation>
+
+    <wsdl:operation name="ListMessages">
+      <wsdl:input message="tns:MakeRequest"/>
+      <wsdl:output message="tns:ReturnMessages"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="ListMessagesWithTimestamps">
+      <wsdl:input message="tns:MakeRequest"/>
+      <wsdl:output message="tns:ReturnMessagesWithTimestamps"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="RetrieveMessage">
+      <wsdl:input message="tns:MakeRequest"/>
+      <wsdl:output message="tns:ReturnMessage"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="ListTopics">
+      <wsdl:input message="tns:void"/>
+      <wsdl:output message="tns:Topics"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="Subscribe">
+      <wsdl:input message="tns:Subscription"/>
+      <wsdl:output message="tns:SubscriptionResponse"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="Unsubscribe">
+      <wsdl:input message="tns:Subscription"/>
+      <wsdl:output message="tns:SubscriptionResponse"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="ListSubscribers">
+      <wsdl:input message="tns:MakeRequest"/>
+      <wsdl:output message="tns:Subscribers"/>
+      <wsdl:fault message="tns:FailureException" name="FailureFault"/>
+    </wsdl:operation>
+
   </wsdl:portType>
 
   <!--wsdl:portType name="PostMessageService">
@@ -157,6 +283,7 @@
   <wsdl:binding name="HelloWorldServiceSOAP" type="tns:HelloWorldService">
     <soap:binding style="document"
                   transport="http://schemas.xmlsoap.org/soap/http"/>
+
     <wsdl:operation name="greet">
       <soap:operation
          soapAction="http://cs.umu.se/edu/soa/hws/stubs/greet"/>
@@ -170,9 +297,10 @@
         <soap:fault name="FailureFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="post">
+
+    <wsdl:operation name="PostMessage">
       <soap:operation
-              soapAction="http://cs.umu.se/edu/soa/hws/stubs/post"/>
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/PostMessage"/>
       <wsdl:input>
         <soap:body use="literal"/>
       </wsdl:input>
@@ -183,6 +311,106 @@
         <soap:fault name="FailureFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+
+    <wsdl:operation name="ListMessages">
+      <soap:operation
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/ListMessages"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="ListMessagesWithTimestamps">
+      <soap:operation
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/ListMessagesWithTimestamps"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="RetrieveMessage">
+      <soap:operation
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/RetrieveMessage"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="ListTopics">
+      <soap:operation
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/ListTopics"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="Subscribe">
+      <soap:operation
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/Subscribe"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="Unsubscribe">
+      <soap:operation
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/Unsubscribe"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="ListSubscribers">
+      <soap:operation
+              soapAction="http://cs.umu.se/edu/soa/hws/stubs/ListSubscribers"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FailureFault">
+        <soap:fault name="FailureFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+
   </wsdl:binding>
 
   <!-- services -->

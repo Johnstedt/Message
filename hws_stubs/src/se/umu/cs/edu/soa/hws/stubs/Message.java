@@ -45,7 +45,7 @@ public class Message implements org.apache.axis2.databinding.ADBBean {
     /**
      * field for Attachments
      */
-    protected byte localAttachments;
+    protected javax.activation.DataHandler localAttachments;
 
     /**
      * Auto generated getter method
@@ -129,9 +129,9 @@ public class Message implements org.apache.axis2.databinding.ADBBean {
 
     /**
      * Auto generated getter method
-     * @return byte
+     * @return javax.activation.DataHandler
      */
-    public byte getAttachments() {
+    public javax.activation.DataHandler getAttachments() {
         return localAttachments;
     }
 
@@ -139,7 +139,7 @@ public class Message implements org.apache.axis2.databinding.ADBBean {
      * Auto generated setter method
      * @param param Attachments
      */
-    public void setAttachments(byte param) {
+    public void setAttachments(javax.activation.DataHandler param) {
         this.localAttachments = param;
     }
 
@@ -262,12 +262,15 @@ public class Message implements org.apache.axis2.databinding.ADBBean {
         namespace = "";
         writeStartElement(null, namespace, "attachments", xmlWriter);
 
-        if (localAttachments == java.lang.Byte.MIN_VALUE) {
-            throw new org.apache.axis2.databinding.ADBException(
-                "attachments cannot be null!!");
+        if (localAttachments != null) {
+            try {
+                org.apache.axiom.util.stax.XMLStreamWriterUtils.writeDataHandler(xmlWriter,
+                    localAttachments, null, true);
+            } catch (java.io.IOException ex) {
+                throw new javax.xml.stream.XMLStreamException("Unable to read data handler for attachments",
+                    ex);
+            }
         } else {
-            xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                    localAttachments));
         }
 
         xmlWriter.writeEndElement();
@@ -530,8 +533,7 @@ public class Message implements org.apache.axis2.databinding.ADBBean {
 
         elementList.add(new javax.xml.namespace.QName("", "attachments"));
 
-        elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
-                localAttachments));
+        elementList.add(localAttachments);
 
         return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName,
             elementList.toArray(), attribList.toArray());
@@ -747,20 +749,8 @@ public class Message implements org.apache.axis2.databinding.ADBBean {
                 if (reader.isStartElement() &&
                         new javax.xml.namespace.QName("", "attachments").equals(
                             reader.getName())) {
-                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
-                            "nil");
-
-                    if ("true".equals(nillableValue) ||
-                            "1".equals(nillableValue)) {
-                        throw new org.apache.axis2.databinding.ADBException(
-                            "The element: " + "attachments" +
-                            "  cannot be null");
-                    }
-
-                    java.lang.String content = reader.getElementText();
-
-                    object.setAttachments(org.apache.axis2.databinding.utils.ConverterUtil.convertToByte(
-                            content));
+                    object.setAttachments(org.apache.axiom.util.stax.XMLStreamReaderUtils.getDataHandlerFromElement(
+                            reader));
 
                     reader.next();
                 } // End of if for expected property start element

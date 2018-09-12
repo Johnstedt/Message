@@ -2,12 +2,14 @@ package se.umu.cs.edu.rest;
 
 import org.restlet.resource.*;
 
+
 public class DemoServerResource extends ServerResource {
+
 
 	@Get
 	public String Read() {
 		String item = getQueryValue("q");
-		return "read " + item + "!\n";
+		return item;
 	}
 
 	@Put

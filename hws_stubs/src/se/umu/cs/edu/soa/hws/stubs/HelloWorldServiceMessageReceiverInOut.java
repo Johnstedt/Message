@@ -38,30 +38,131 @@ public class HelloWorldServiceMessageReceiverInOut extends org.apache.axis2.rece
             if ((op.getName() != null) &&
                     ((methodName = org.apache.axis2.util.JavaUtils.xmlNameToJavaIdentifier(
                             op.getName().getLocalPart())) != null)) {
-                if ("greet".equals(methodName)) {
-                    se.umu.cs.edu.soa.hws.stubs.GreetResponse greetResponse10 = null;
-                    se.umu.cs.edu.soa.hws.stubs.GreetRequest wrappedParam = (se.umu.cs.edu.soa.hws.stubs.GreetRequest) fromOM(msgContext.getEnvelope()
+                if ("unsubscribe".equals(methodName)) {
+                    se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse subscriptionResponse45 =
+                        null;
+                    se.umu.cs.edu.soa.hws.stubs.Subscription wrappedParam = (se.umu.cs.edu.soa.hws.stubs.Subscription) fromOM(msgContext.getEnvelope()
                                                                                                                                         .getBody()
                                                                                                                                         .getFirstElement(),
-                            se.umu.cs.edu.soa.hws.stubs.GreetRequest.class,
+                            se.umu.cs.edu.soa.hws.stubs.Subscription.class,
                             getEnvelopeNamespaces(msgContext.getEnvelope()));
 
-                    greetResponse10 = skel.greet(wrappedParam);
+                    subscriptionResponse45 = skel.unsubscribe(wrappedParam);
 
                     envelope = toEnvelope(getSOAPFactory(msgContext),
-                            greetResponse10, false,
+                            subscriptionResponse45, false,
                             new javax.xml.namespace.QName(
-                                "http://cs.umu.se/edu/soa/hws/stubs", "greet"));
-                } else if ("post".equals(methodName)) {
+                                "http://cs.umu.se/edu/soa/hws/stubs",
+                                "unsubscribe"));
+                } else if ("postMessage".equals(methodName)) {
                     se.umu.cs.edu.soa.hws.stubs.Message wrappedParam = (se.umu.cs.edu.soa.hws.stubs.Message) fromOM(msgContext.getEnvelope()
                                                                                                                               .getBody()
                                                                                                                               .getFirstElement(),
                             se.umu.cs.edu.soa.hws.stubs.Message.class,
                             getEnvelopeNamespaces(msgContext.getEnvelope()));
 
-                    skel.post(wrappedParam);
+                    skel.postMessage(wrappedParam);
 
                     envelope = getSOAPFactory(msgContext).getDefaultEnvelope();
+                } else if ("greet".equals(methodName)) {
+                    se.umu.cs.edu.soa.hws.stubs.GreetResponse greetResponse49 = null;
+                    se.umu.cs.edu.soa.hws.stubs.GreetRequest wrappedParam = (se.umu.cs.edu.soa.hws.stubs.GreetRequest) fromOM(msgContext.getEnvelope()
+                                                                                                                                        .getBody()
+                                                                                                                                        .getFirstElement(),
+                            se.umu.cs.edu.soa.hws.stubs.GreetRequest.class,
+                            getEnvelopeNamespaces(msgContext.getEnvelope()));
+
+                    greetResponse49 = skel.greet(wrappedParam);
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext),
+                            greetResponse49, false,
+                            new javax.xml.namespace.QName(
+                                "http://cs.umu.se/edu/soa/hws/stubs", "greet"));
+                } else if ("subscribe".equals(methodName)) {
+                    se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse subscriptionResponse51 =
+                        null;
+                    se.umu.cs.edu.soa.hws.stubs.Subscription wrappedParam = (se.umu.cs.edu.soa.hws.stubs.Subscription) fromOM(msgContext.getEnvelope()
+                                                                                                                                        .getBody()
+                                                                                                                                        .getFirstElement(),
+                            se.umu.cs.edu.soa.hws.stubs.Subscription.class,
+                            getEnvelopeNamespaces(msgContext.getEnvelope()));
+
+                    subscriptionResponse51 = skel.subscribe(wrappedParam);
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext),
+                            subscriptionResponse51, false,
+                            new javax.xml.namespace.QName(
+                                "http://cs.umu.se/edu/soa/hws/stubs",
+                                "subscribe"));
+                } else if ("retrieveMessage".equals(methodName)) {
+                    se.umu.cs.edu.soa.hws.stubs.Message message53 = null;
+                    se.umu.cs.edu.soa.hws.stubs.Selector wrappedParam = (se.umu.cs.edu.soa.hws.stubs.Selector) fromOM(msgContext.getEnvelope()
+                                                                                                                                .getBody()
+                                                                                                                                .getFirstElement(),
+                            se.umu.cs.edu.soa.hws.stubs.Selector.class,
+                            getEnvelopeNamespaces(msgContext.getEnvelope()));
+
+                    message53 = skel.retrieveMessage(wrappedParam);
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext),
+                            message53, false,
+                            new javax.xml.namespace.QName(
+                                "http://cs.umu.se/edu/soa/hws/stubs",
+                                "retrieveMessage"));
+                } else if ("listSubscribers".equals(methodName)) {
+                    se.umu.cs.edu.soa.hws.stubs.Subscribers subscribers55 = null;
+                    se.umu.cs.edu.soa.hws.stubs.Selector wrappedParam = (se.umu.cs.edu.soa.hws.stubs.Selector) fromOM(msgContext.getEnvelope()
+                                                                                                                                .getBody()
+                                                                                                                                .getFirstElement(),
+                            se.umu.cs.edu.soa.hws.stubs.Selector.class,
+                            getEnvelopeNamespaces(msgContext.getEnvelope()));
+
+                    subscribers55 = skel.listSubscribers(wrappedParam);
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext),
+                            subscribers55, false,
+                            new javax.xml.namespace.QName(
+                                "http://cs.umu.se/edu/soa/hws/stubs",
+                                "listSubscribers"));
+                } else if ("listTopics".equals(methodName)) {
+                    se.umu.cs.edu.soa.hws.stubs.Topics topics57 = null;
+                    topics57 = skel.listTopics();
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext), topics57,
+                            false,
+                            new javax.xml.namespace.QName(
+                                "http://cs.umu.se/edu/soa/hws/stubs",
+                                "listTopics"));
+                } else if ("listMessages".equals(methodName)) {
+                    se.umu.cs.edu.soa.hws.stubs.Identifiers identifiers59 = null;
+                    se.umu.cs.edu.soa.hws.stubs.Selector wrappedParam = (se.umu.cs.edu.soa.hws.stubs.Selector) fromOM(msgContext.getEnvelope()
+                                                                                                                                .getBody()
+                                                                                                                                .getFirstElement(),
+                            se.umu.cs.edu.soa.hws.stubs.Selector.class,
+                            getEnvelopeNamespaces(msgContext.getEnvelope()));
+
+                    identifiers59 = skel.listMessages(wrappedParam);
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext),
+                            identifiers59, false,
+                            new javax.xml.namespace.QName(
+                                "http://cs.umu.se/edu/soa/hws/stubs",
+                                "listMessages"));
+                } else if ("listMessagesWithTimestamps".equals(methodName)) {
+                    se.umu.cs.edu.soa.hws.stubs.TimeStamps timeStamps61 = null;
+                    se.umu.cs.edu.soa.hws.stubs.Selector wrappedParam = (se.umu.cs.edu.soa.hws.stubs.Selector) fromOM(msgContext.getEnvelope()
+                                                                                                                                .getBody()
+                                                                                                                                .getFirstElement(),
+                            se.umu.cs.edu.soa.hws.stubs.Selector.class,
+                            getEnvelopeNamespaces(msgContext.getEnvelope()));
+
+                    timeStamps61 = skel.listMessagesWithTimestamps(wrappedParam);
+
+                    envelope = toEnvelope(getSOAPFactory(msgContext),
+                            timeStamps61, false,
+                            new javax.xml.namespace.QName(
+                                "http://cs.umu.se/edu/soa/hws/stubs",
+                                "listMessagesWithTimestamps"));
                 } else {
                     throw new java.lang.RuntimeException("method not found");
                 }
@@ -86,10 +187,10 @@ public class HelloWorldServiceMessageReceiverInOut extends org.apache.axis2.rece
 
     //
     private org.apache.axiom.om.OMElement toOM(
-        se.umu.cs.edu.soa.hws.stubs.GreetRequest param, boolean optimizeContent)
+        se.umu.cs.edu.soa.hws.stubs.Subscription param, boolean optimizeContent)
         throws org.apache.axis2.AxisFault {
         try {
-            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.GreetRequest.MY_QNAME,
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.Subscription.MY_QNAME,
                 org.apache.axiom.om.OMAbstractFactory.getOMFactory());
         } catch (org.apache.axis2.databinding.ADBException e) {
             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -97,10 +198,10 @@ public class HelloWorldServiceMessageReceiverInOut extends org.apache.axis2.rece
     }
 
     private org.apache.axiom.om.OMElement toOM(
-        se.umu.cs.edu.soa.hws.stubs.GreetResponse param, boolean optimizeContent)
-        throws org.apache.axis2.AxisFault {
+        se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse param,
+        boolean optimizeContent) throws org.apache.axis2.AxisFault {
         try {
-            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.GreetResponse.MY_QNAME,
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse.MY_QNAME,
                 org.apache.axiom.om.OMAbstractFactory.getOMFactory());
         } catch (org.apache.axis2.databinding.ADBException e) {
             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -129,6 +230,108 @@ public class HelloWorldServiceMessageReceiverInOut extends org.apache.axis2.rece
         }
     }
 
+    private org.apache.axiom.om.OMElement toOM(
+        se.umu.cs.edu.soa.hws.stubs.GreetRequest param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.GreetRequest.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        se.umu.cs.edu.soa.hws.stubs.GreetResponse param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.GreetResponse.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        se.umu.cs.edu.soa.hws.stubs.Selector param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.Selector.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        se.umu.cs.edu.soa.hws.stubs.Subscribers param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.Subscribers.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        se.umu.cs.edu.soa.hws.stubs.Topics param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.Topics.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        se.umu.cs.edu.soa.hws.stubs.Identifiers param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.Identifiers.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        se.umu.cs.edu.soa.hws.stubs.TimeStamps param, boolean optimizeContent)
+        throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(se.umu.cs.edu.soa.hws.stubs.TimeStamps.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse param,
+        boolean optimizeContent, javax.xml.namespace.QName methodQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse.MY_QNAME,
+                    factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse wrapUnsubscribe() {
+        se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse wrappedElement = new se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse();
+
+        return wrappedElement;
+    }
+
     private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
         org.apache.axiom.soap.SOAPFactory factory,
         se.umu.cs.edu.soa.hws.stubs.GreetResponse param,
@@ -149,6 +352,132 @@ public class HelloWorldServiceMessageReceiverInOut extends org.apache.axis2.rece
 
     private se.umu.cs.edu.soa.hws.stubs.GreetResponse wrapgreet() {
         se.umu.cs.edu.soa.hws.stubs.GreetResponse wrappedElement = new se.umu.cs.edu.soa.hws.stubs.GreetResponse();
+
+        return wrappedElement;
+    }
+
+    private se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse wrapSubscribe() {
+        se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse wrappedElement = new se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse();
+
+        return wrappedElement;
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        se.umu.cs.edu.soa.hws.stubs.Message param, boolean optimizeContent,
+        javax.xml.namespace.QName methodQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    se.umu.cs.edu.soa.hws.stubs.Message.MY_QNAME, factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private se.umu.cs.edu.soa.hws.stubs.Message wrapRetrieveMessage() {
+        se.umu.cs.edu.soa.hws.stubs.Message wrappedElement = new se.umu.cs.edu.soa.hws.stubs.Message();
+
+        return wrappedElement;
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        se.umu.cs.edu.soa.hws.stubs.Subscribers param, boolean optimizeContent,
+        javax.xml.namespace.QName methodQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    se.umu.cs.edu.soa.hws.stubs.Subscribers.MY_QNAME, factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private se.umu.cs.edu.soa.hws.stubs.Subscribers wrapListSubscribers() {
+        se.umu.cs.edu.soa.hws.stubs.Subscribers wrappedElement = new se.umu.cs.edu.soa.hws.stubs.Subscribers();
+
+        return wrappedElement;
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        se.umu.cs.edu.soa.hws.stubs.Topics param, boolean optimizeContent,
+        javax.xml.namespace.QName methodQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    se.umu.cs.edu.soa.hws.stubs.Topics.MY_QNAME, factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private se.umu.cs.edu.soa.hws.stubs.Topics wrapListTopics() {
+        se.umu.cs.edu.soa.hws.stubs.Topics wrappedElement = new se.umu.cs.edu.soa.hws.stubs.Topics();
+
+        return wrappedElement;
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        se.umu.cs.edu.soa.hws.stubs.Identifiers param, boolean optimizeContent,
+        javax.xml.namespace.QName methodQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    se.umu.cs.edu.soa.hws.stubs.Identifiers.MY_QNAME, factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private se.umu.cs.edu.soa.hws.stubs.Identifiers wrapListMessages() {
+        se.umu.cs.edu.soa.hws.stubs.Identifiers wrappedElement = new se.umu.cs.edu.soa.hws.stubs.Identifiers();
+
+        return wrappedElement;
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        se.umu.cs.edu.soa.hws.stubs.TimeStamps param, boolean optimizeContent,
+        javax.xml.namespace.QName methodQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    se.umu.cs.edu.soa.hws.stubs.TimeStamps.MY_QNAME, factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private se.umu.cs.edu.soa.hws.stubs.TimeStamps wrapListMessagesWithTimestamps() {
+        se.umu.cs.edu.soa.hws.stubs.TimeStamps wrappedElement = new se.umu.cs.edu.soa.hws.stubs.TimeStamps();
 
         return wrappedElement;
     }
@@ -177,8 +506,37 @@ public class HelloWorldServiceMessageReceiverInOut extends org.apache.axis2.rece
                 return se.umu.cs.edu.soa.hws.stubs.GreetResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
 
+            if (se.umu.cs.edu.soa.hws.stubs.Identifiers.class.equals(type)) {
+                return se.umu.cs.edu.soa.hws.stubs.Identifiers.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
             if (se.umu.cs.edu.soa.hws.stubs.Message.class.equals(type)) {
                 return se.umu.cs.edu.soa.hws.stubs.Message.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (se.umu.cs.edu.soa.hws.stubs.Selector.class.equals(type)) {
+                return se.umu.cs.edu.soa.hws.stubs.Selector.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (se.umu.cs.edu.soa.hws.stubs.Subscribers.class.equals(type)) {
+                return se.umu.cs.edu.soa.hws.stubs.Subscribers.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (se.umu.cs.edu.soa.hws.stubs.Subscription.class.equals(type)) {
+                return se.umu.cs.edu.soa.hws.stubs.Subscription.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse.class.equals(
+                        type)) {
+                return se.umu.cs.edu.soa.hws.stubs.SubscriptionResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (se.umu.cs.edu.soa.hws.stubs.TimeStamps.class.equals(type)) {
+                return se.umu.cs.edu.soa.hws.stubs.TimeStamps.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (se.umu.cs.edu.soa.hws.stubs.Topics.class.equals(type)) {
+                return se.umu.cs.edu.soa.hws.stubs.Topics.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
         } catch (java.lang.Exception e) {
             throw org.apache.axis2.AxisFault.makeFault(e);

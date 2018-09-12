@@ -7,7 +7,7 @@
 package se.umu.cs.edu.soa.hws.stubs;
 
 public class FailureException extends java.lang.Exception {
-    private static final long serialVersionUID = 1536665824514L;
+    private static final long serialVersionUID = 1536682855885L;
     private se.umu.cs.edu.soa.hws.stubs.FailureMessage faultMessage;
 
     public FailureException() {
