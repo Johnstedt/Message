@@ -1,17 +1,12 @@
 package se.umu.cs.edu.rest;
 
 import com.google.gson.Gson;
-import org.restlet.data.Form;
-import org.restlet.representation.Representation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 import se.umu.cs.edu.messenger.IMessengerImpl;
 import se.umu.cs.edu.soa.hws.stubs.Message;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 
 public class PostMessage extends ServerResource {
 
@@ -31,7 +26,6 @@ public class PostMessage extends ServerResource {
 
         rm.postMessage(message1);
 
-        return new Gson().toJson(message);
+        return "";
     }
-
 }
